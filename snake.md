@@ -19,6 +19,51 @@ Details about sprites that can change as we play the game. We'll look at values 
 The game has a single snake, pieces of food, and four walls that create a border. The snake is controlled by a single player, and can be moved in any direction. At the start of the game, the snake is very short and moves slowly towards a piece of food to the right. When the player moves the snake to eat food, the snake grows in length and moves a little faster. As food is eaten, a new piece of food appears in a random location. The player continues moving the snake to eat as much food as possible. The game ends when the snake runs into a wall, or itself.
 
 ## 2. what the framework needs ##
+To start, here's some _skeleton_ code for our game. Calling it _skeleton_ code just means that it's not incomplete, and there's a lot of code that we'll need to fill in.
+
+_skeleton code for snake_
+```javascript
+//variables for framework
+var canvas = {};
+var input = {};
+var timers = {};
+var sprites;
+
+//declare sprites
+var snake = {};
+var food = {};
+var topWall = {};
+var bottomWall = {};
+var leftWall = {};
+var rightWall = {};
+
+//function to easily create snake pieces
+var SnakePiece = function(){
+
+};
+
+//code to finish setting up sprites should go here
+//code to setup food
+//code to setup top wall
+//code to setup bottom wall
+//code to setup left wall
+//code to setup rightwall
+//code to setup snake
+
+//list of initial sprites for the game
+var sprites = [snake, topWall, bottomWall, leftWall, rightWall, food];
+
+//setup object for framework
+var myGame = {};
+myGame.canvas = canvas;
+myGame.sprites = sprites;
+myGame.input = input;
+myGame.timers = timers;
+
+//setup and start game
+Game.setup(myGame);
+Game.start();
+```
 For our game, there are four major items we'll need to provide to the framework:
 
  1. `canvas`
@@ -36,24 +81,24 @@ In Snake, we really want everything to move like it's in a grid. When the snake 
 
 Here's a table for all of the values.
 
-| attribute        | value          |
-|-----------------:|---------------:|
-| width            | 20             |
-| height           | 20             |
-| scaleFactor      | 32             |
-| id               | `canvas`       |
-| background color | `rgb(0, 0, 0)` |
+| attribute                 | value          |
+|--------------------------:|---------------:|
+| `canvas.width`            | 20             |
+| `canvas.height`           | 20             |
+| `canvas.scaleFactor`      | 32             |
+| `canvas.id`               | `canvas`       |
+| `canvas.background.color` | `rgb(0, 0, 0)` |
 
 ### `input` ###
 
 For the input, we just need four keys so we can move the snake up, down, left, and right. We'll use WASD for this. And since there's only one player, we'll use simple names for the actions like up, down, left, and right.
 
-| action name | key code |
-|------------:|---------:|
-| `up`        | `KeyW`   |
-| `left`      | `KeyA`   |
-| `down`      | `KeyS`   |
-| `right`     | `KeyD`   |
+| action name   | key code |
+|--------------:|---------:|
+| `input.up`    | `KeyW`   |
+| `input.left`  | `KeyA`   |
+| `input.down`  | `KeyS`   |
+| `input.right` | `KeyD`   |
  
 ### `sprites` ###
 We learned that players move the snake to eat food, and try to avoid running into walls or the snake itself. This means we'll need four sprites for the walls, and a fifth sprite for the food.
@@ -121,8 +166,8 @@ For Snake, there's a new attribute and component we'll use.
 |--------------:|----------:|-----------:|----------:|------------:|------------:|------:|---------------------:|--------------------:|
 |`tags`         |`["wall"]` | `["wall"]` | `["wall"]`|`["wall"]`   | -           | -     |-                     |`["snake piece"]`    |
 |`image.src`    |-          |-           |-          |-            |[food][image]|-      |[head of snake][image]|[snake piece][image] |
-|`position.x`   | 0         | 19         | 0         | 0           | 13          | -     | 10                   | -                   |
-|`position.y`   | 0         | 0          | 0         | 19          | 10          | -     | 10                   | -                   |
+|`position.x`   | -1        | 20         | 0         | 0           | 13          | -     | 10                   | -                   |
+|`position.y`   | 0         | 0          | -1        | 20          | 10          | -     | 10                   | -                   |
 |`hitBox.width` |1          | 1          | 20        | 20          | 1           | -     | 1                    | 1                   |          
 |`hitBox.height`|20         | 20         | 1         | 1           | 1           | -     | 1                    | 1                   |
 |`physics`      |-          |-           |-          |-            | -           | -     | `true`               | `true`              |
@@ -140,6 +185,41 @@ You may have noticed several things.
 4. Only the head of the snake has an `onCollision` function. Since the head is the only piece of the snake that can run into other sprites, it's the only piece that needs an `onCollision` function.
 5. Other pieces of the snake don't have any functions. Two reasons: (1) the head of the snake checks for collisions and (2) `snake` manages everything else.
 
+Here's the code for one of the left wall. The code can be copied and changed for the other the right, top and bottom walls.
+
+_code for left wall_
+```javascript
+//setup sprite for top wall
+topWall.position = {};
+topWall.hitBox = {};
+topWall.tags = ["wall"];
+topWall.width = 20;
+topWall.height = 1;
+topWall.position.x = 0;
+topWall.position.y = -1;
+topWall.hitBox.width = 20;
+topWall.hitBox.height = 1;
+```
+
+And here's the code for setting up the food sprite.
+
+_code for food_
+```javascript
+//setup food sprite
+food = {};
+food.position = {};
+food.image = {}
+food.hitBox = {};
+food.name = "food";
+food.width = 1;
+food.height = 1;
+food.isSensor = true;
+food.image.src = "https://github.com/pyvelepor/framework/raw/snake/sprites/pong/ball.png";
+food.position.x = 13;
+food.position.y = 10;
+food.hitBox.width = 1;
+food.hitBox.height = 1;
+```
 ## 4. sprites' dynamic values ##
 In our version of Snake, `snake` and the head have most of the dyanmic values and change because of our timer (`move`), actions from keyboard input, and collisions. So this section will only focus on those two sprites, and we can breakdown our dynamic values by looking at what happens when:
 
@@ -396,6 +476,7 @@ snake.pieces.push(head)
 
 Here's what all the code looks like put together.
 
+_removing snake pieces and resetting `snake.pieces`_
 ```javascript
 if(sprite.tags.includes("wall")){
   //get the snake sprite
@@ -427,6 +508,7 @@ if(sprite.tags.includes("wall")){
 #### 4. reset the head of the snake to center ####
 To recenter the head of the snake, we can set the x and y position back to their initial values: 10 and 10.
 
+_resetting snake's head to initial position_
 ```javascript
 //recenter the head of the snake
 head.position.x = 10;
@@ -436,6 +518,7 @@ head.position.y = 10;
 #### 5. reset the food to be just to the right of the snake ####
 Recentering the food is a two step process. First, we use `Game.sprites.withName(<name>)` to get the food, where name is `"food"`. Next, we set the x and y position back to their intitial values: 13 and 10.
 
+_resetting food to initial position_
 ```javascript
 //get the food sprite
 var food = Game.sprites.withName("food");
