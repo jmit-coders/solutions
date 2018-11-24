@@ -81,13 +81,23 @@ In Snake, we really want everything to move like it's in a grid. When the snake 
 
 Here's a table for all of the values.
 
-| attribute                 | value          |
-|--------------------------:|---------------:|
-| `canvas.width`            | 20             |
-| `canvas.height`           | 20             |
-| `canvas.scaleFactor`      | 32             |
-| `canvas.id`               | `canvas`       |
-| `canvas.background.color` | `rgb(0, 0, 0)` |
+| attribute                 | value            |
+|--------------------------:|-----------------:|
+| `canvas.width`            | 20               |
+| `canvas.height`           | 20               |
+| `canvas.scaleFactor`      | 32               |
+| `canvas.id`               | `"canvas"`       |
+| `canvas.background.color` | `"rgb(0, 0, 0)"` |
+
+_code for setting up canvas_
+```javascript
+canvas.background = {};
+canvas.width = 20;
+canvas.height = 20;
+canvas.scaleFactor = 32;
+canvas.id = "canvas";
+canvas.background.color = "rgb(0, 0 0)";
+```
 
 ### `input` ###
 
@@ -95,10 +105,18 @@ For the input, we just need four keys so we can move the snake up, down, left, a
 
 | action name   | key code |
 |--------------:|---------:|
-| `input.up`    | `KeyW`   |
-| `input.left`  | `KeyA`   |
-| `input.down`  | `KeyS`   |
-| `input.right` | `KeyD`   |
+| `input.up`    | `"KeyW"` |
+| `input.left`  | `"KeyA"` |
+| `input.down`  | `"KeyS"` |
+| `input.right` | `"KeyD"` |
+
+_code for setting up input_
+```javascript
+input.up = "KeyW";
+input.left = "KeyA";
+input.down = "KeyS";
+input.right = "KeyD";
+```
  
 ### `sprites` ###
 We learned that players move the snake to eat food, and try to avoid running into walls or the snake itself. This means we'll need four sprites for the walls, and a fifth sprite for the food.
@@ -124,9 +142,14 @@ We can make the snake move like this by using timers. To setup a timer, we set h
 
 For our game, we'll name our timer `move`, since we're using it to pause and start movement. We'll set it to be 500milliseconds.
 
-| name | duration |
-|-----:|---------:|
-|`move`|500       |
+| name        | duration |
+|------------:|---------:|
+|`timers.move`|500       |
+
+_code for setting up timers_
+```javascript
+timers.move = 500;
+```
 
 ## 3. sprites' initial values ##
 For Snake, here is a list of *all* the different attributes and components we'll use, and basic descriptions of each.
@@ -155,25 +178,25 @@ For Snake, there's a new attribute and component we'll use.
 
   - `tags`: is a list of keywords that we can assign to a sprite. Then later, we can search for sprites using a keyword, and get back a list of sprites which have the keyword.
 
-| attribute | left and right walls | top and bottom walls | food     | snake     | head of snake | piece of snake |
-|----------:|---------------------:|---------------------:|---------:|----------:|--------------:|---------------:|
-|`name`     |-                     | -                    | `"food"` | `"snake"` | -             |  -             |
-|`width`    | 1                    | 20                   | 1        | -         | 1             | 1              |
-|`height`   | 20                   | 1                    | 1        | -         | 1             | 1              |
-|`isSensor` | `true`               | `true`               | `true`   | -         | `true`        | `true`         |
+|attribute      | left wall | right wall | top wall  | bottom wall | food        | snake     | head of snake        | piece of snake      |
+|:--------------|----------:|-----------:|----------:|------------:|------------:|----------:|---------------------:|--------------------:|
+|`name`         |-          |-           | -         |-            | `"food"`    | `"snake"` | -                    |  -                  |
+|`width`        | 1         |1           | 20        |20           | 1           | -         | 1                    | 1                   |
+|`height`       | 20        |20          | 1         |1            | 1           | -         | 1                    | 1                   |
+|`isSensor`     | `true`    |`true`      | `true`    |`true`       | `true`      | -         | `true`               | `true`              |
 
-| component     | left wall | right wall | top wall  | bottom wall | food        | snake | head of snake        | piece of snake      |
-|--------------:|----------:|-----------:|----------:|------------:|------------:|------:|---------------------:|--------------------:|
-|`tags`         |`["wall"]` | `["wall"]` | `["wall"]`|`["wall"]`   | -           | -     |-                     |`["snake piece"]`    |
-|`image.src`    |-          |-           |-          |-            |[food][image]|-      |[head of snake][image]|[snake piece][image] |
-|`position.x`   | -1        | 20         | 0         | 0           | 13          | -     | 10                   | -                   |
-|`position.y`   | 0         | 0          | -1        | 20          | 10          | -     | 10                   | -                   |
-|`hitBox.width` |1          | 1          | 20        | 20          | 1           | -     | 1                    | 1                   |          
-|`hitBox.height`|20         | 20         | 1         | 1           | 1           | -     | 1                    | 1                   |
-|`physics`      |-          |-           |-          |-            | -           | -     | `true`               | `true`              |
-|`start`        |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`  |`no`                  |`no`                 |
-|`update`       |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`  |`no`                  |`no`                 |
-|`onCollision`  |`no`       |`no`        |`no`       |`no`         |`no`         |`no`   |`yes`                 |`no`                 |       
+| component     | left wall | right wall | top wall  | bottom wall | food        | snake     | head of snake        | piece of snake      |
+|:--------------|----------:|-----------:|----------:|------------:|------------:|----------:|---------------------:|--------------------:|
+|`tags`         |`["wall"]` | `["wall"]` | `["wall"]`|`["wall"]`   | -           | -         |-                     |`["snake piece"]`    |
+|`image.src`    |-          |-           |-          |-            |[food][image]|-          |[head of snake][image]|[snake piece][image] |
+|`position.x`   | -1        | 20         | 0         | 0           | 13          | -         | 10                   | -                   |
+|`position.y`   | 0         | 0          | -1        | 20          | 10          | -         | 10                   | -                   |
+|`hitBox.width` |1          | 1          | 20        | 20          | 1           | -         | 1                    | 1                   |          
+|`hitBox.height`|20         | 20         | 1         | 1           | 1           | -         | 1                    | 1                   |
+|`physics`      |-          |-           |-          |-            | -           | -         | `true`               | `true`              |
+|`start`        |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`      |`no`                  |`no`                 |
+|`update`       |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`      |`no`                  |`no`                 |
+|`onCollision`  |`no`       |`no`        |`no`       |`no`         |`no`         |`no`       |`yes`                 |`no`                 |       
 
 [image]: https://github.com/pyvelepor/framework/raw/snake/sprites/pong/ball.png
 
@@ -190,15 +213,15 @@ Here's the code for one of the left wall. The code can be copied and changed for
 _code for left wall_
 ```javascript
 //setup sprite for top wall
-topWall.position = {};
-topWall.hitBox = {};
-topWall.tags = ["wall"];
-topWall.width = 20;
-topWall.height = 1;
-topWall.position.x = 0;
-topWall.position.y = -1;
-topWall.hitBox.width = 20;
-topWall.hitBox.height = 1;
+leftWall.position = {};
+leftWall.hitBox = {};
+leftWall.tags = ["wall"];
+leftWall.width = 1;
+leftWall.height = 20;
+leftWall.position.x = -1;
+leftWall.position.y = 0;
+leftWall.hitBox.width = 1;
+leftWall.hitBox.height = 20;
 ```
 
 And here's the code for setting up the food sprite.
@@ -219,6 +242,20 @@ food.position.x = 13;
 food.position.y = 10;
 food.hitBox.width = 1;
 food.hitBox.height = 1;
+```
+
+And skeleton code for the snake
+
+_skeleton code for the snake sprite_
+```javascript
+snake.name = "snake";
+snake.start = function(){
+  //code for starting the snake goes here
+};
+
+snake.update = function(){
+  //code for updating the snake goes here
+};
 ```
 ## 4. sprites' dynamic values ##
 In our version of Snake, `snake` and the head have most of the dyanmic values and change because of our timer (`move`), actions from keyboard input, and collisions. So this section will only focus on those two sprites, and we can breakdown our dynamic values by looking at what happens when:
@@ -272,9 +309,17 @@ snake.pieces = [];
 //add a single snake piece for the head
 snake.pieces.push(new SnakePiece());
 ```
+Next, we need to set the x and y position of the head to the correct initial values: 10 and 10.
+
+_set head's position to correct values_
+```javascript
+snake.pieces[0].position.x = 10;
+snake.pieces[0].position.y = 10;
+```
 
 Next, because `SnakePiece` doesn't add `onCollision` to the pieces, we need to add this function to the head. For now, we'll add a function that does nothing, and we'll update the code when we look at changing values because of collisions.
 
+_add empty `onCollision` function to head_
 ```javascript
 //add empty `onCollision` function to head of snake
 //`snake.pieces[0]` refers to head of snake
@@ -283,6 +328,7 @@ snake.pieces[0].onCollision = function(sprite){};
 
 In Pong, all of our sprites existed at the beggining of the game, so we added them all to the game before we started it. But when we start snake, all of our sprites, including the head, haven't been created yet. It's important to remember that after we've created a sprite, we make sure we ***add the head to the game***.  If we forget to add this or other sprites, the game doesn't know about them. To to this, we need to use `Game.sprites.add` to add sprites that are created after the game has been started.
 
+_add head to game_
 ```javascript
 //add the head to the game
 //`snake.pieces[0]` refers to head of snake
@@ -292,6 +338,7 @@ Game.sprites.add(snake.pieces[0]);
 ### 2. the timer goes off ###
 We make the snake move by using a timer. Whenver the timer goess off, we know it's time to move the snake. When can check if our timer has gone off by using `Game.timers(<name>).ready()` where `<name>` should be then name of the timer we created. In our version of Snake, we named the timer `move`. This returns `true` if the timer has gone off and `false` if it hasn't. We can use this as the condition of an if statement, so if the timer has gone off, we can move all the snake peices.
 
+_check if timer has gone off_
 ```javascript
 if(Game.timers.withName("move").ready()){
   //code to move snake pieces
@@ -320,6 +367,7 @@ To move all of the pieces of the snake, we'll use a while loop and a variable th
 
 The last thing we do, outside the loop, is reset the timer using `Game.timers.withName("move").start()`. If we don't reset the timer, the snake will stop moving.
 
+_making the snake move_
 ```javascript
 //variable to keep track of which snake piece is being updated
 var index = 0;
@@ -368,12 +416,12 @@ if(Game.timers.withName("move").ready()){
 ### 3. an action occurs ###
 For Snake, we use actions to change the direction the snake will move in. The code for the actions is very similar to the code for moving the paddles in Pong. The major difference is that instead of updating a velocity, we update `this.direction`. Here's a table that lists the four different directions, and the corresponding x and y values.
 
-|action name   | `this.direction.x` | `this.direction.y` |
-|-------------:|-------------------:|-------------------:|
-|`up`          | 0                  | -1                 |
-|`left`        | -1                 | 0                  |
-|`down`        | 0                  | 1                  |
-|`right`       |1                   | 0                  |
+|action name                     | `this.direction.x` | `this.direction.y` |
+|:-------------------------------|-------------------:|-------------------:|
+|`Game.actions.withName("up")`   | 0                  | -1                 |
+|`Game.actions.withName("left")` | -1                 | 0                  |
+|`Game.actions.withName("down")` | 0                  | 1                  |
+|`Game.actions.withName("right")`|1                   | 0                  |
 
 And here's the code, using the values from the table.
 ```javascript
