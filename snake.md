@@ -110,12 +110,12 @@ For Snake, there's a new attribute and component we'll use.
 
   - `tags`: is a list of keywords that we can assign to a sprite. Then later, we can search for sprites using a keyword, and get back a list of sprites which have the keyword.
 
-| attribute | left and right walls | top and bottom walls | food     | snake | head of snake | piece of snake |
-|----------:|---------------------:|---------------------:|---------:|------:|--------------:|---------------:|
-|`name`     |-                     | -                    | `"food"` | -     | -             |  -             |
-|`width`    | 1                    | 20                   | 1        | -     | 1             | 1              |
-|`height`   | 20                   | 1                    | 1        | -     | 1             | 1              |
-|`isSensor` | `true`               | `true`               | `true`   | -     | `true`        | `true`         |
+| attribute | left and right walls | top and bottom walls | food     | snake   | head of snake | piece of snake |
+|----------:|---------------------:|---------------------:|---------:|--------:|--------------:|---------------:|
+|`name`     |-                     | -                    | `"food"` | "snake" | -             |  -             |
+|`width`    | 1                    | 20                   | 1        | -       | 1             | 1              |
+|`height`   | 20                   | 1                    | 1        | -       | 1             | 1              |
+|`isSensor` | `true`               | `true`               | `true`   | -       | `true`        | `true`         |
 
 | component     | left wall | right wall | top wall  | bottom wall | food   | snake | head of snake   | piece of snake  |
 |--------------:|----------:|-----------:|----------:|------------:|-------:|------:|----------------:|----------------:|
@@ -235,6 +235,8 @@ You may have noticed a few patterns:
 
 To move all of the pieces of the snake, we'll use a while loop and a variable that let's keep track of which piece we're updating. We'll name the variable `index`. A while loop let's us repeat a bunch of code while a condition is true. In our case, the condition is whether `index` is less than the total number of snake pieces, `snake.pieces.length`. On each pass of the loop, we'll increase the value of index by 1. If we don't, the condition `index < snake.pieces.length` would always be true, and the loop would never stop.
 
+The last thing we do, outside the loop, is reset the timer using `Game.timers.withName("move").start()`. If we don't reset the timer, the snake will stop moving.
+
 ```javascript
 //variable to keep track of which snake piece is being updated
 var index = 0;
@@ -265,13 +267,16 @@ if(Game.timers.withName("move").ready()){
       //update piece's position using old position of piece in front
       //`index` is current piece
       //`index - 1` is piece in front
-      snake.pieces[index].position.x = snake.pieces[index - 1].position.x;
-      snake.pieces[index].position.y = snake.pieces[index - 1].position.y;
+      snake.pieces[index].position.x = snake.pieces[index - 1].oldPosition.x;
+      snake.pieces[index].position.y = snake.pieces[index - 1].oldPosition.y;
     }
 
     //increase index by 1
     index += 1;
   }
+
+  //reset timer
+  Game.timers.withName("move").start();
 }
 ```
 
