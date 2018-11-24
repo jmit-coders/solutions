@@ -1,7 +1,7 @@
 # Snake #
-This tutorial will walk us through making Snake. The player controls the snake to collect as much food as possible, and avoid running into anything else in the game.
+This tutorial will walk us through making Snake. A completed version of the game can be played [here](https://peach-justice.glitch.me).
 
-This tutorial will follow the same format as the Pong tutorial, which means we'll look at the following.
+In Snake, the player controls the snake to collect as much food as possible, and avoid running into anything else in the game. This tutorial will follow the same format as the Pong tutorial, which means we'll look at the following.
 
 1. The gameplay.  
 A very basic description of how Snake works.  
@@ -781,7 +781,7 @@ if(sprite.name === "food"){
 ```
 
 ## wrap up ##
-Congratulations! We made our second game: Snake. If you enjoyed creating games and would like to continue making games, here are some things to consider. First, you now have a strategy you can use and adjust for planning and developing your games.
+Congratulations! We made our second game: Snake. The full code can be found at [glitch.com](https://glitch.com/edit/#!/peach-justice). If you enjoyed creating games and would like to continue making games, here are some things to consider. First, you now have a strategy you can use and adjust for planning and developing your games.
 
   1. Think about the gameplay.  
   2. Think about what you'll need to setup in the framework.
