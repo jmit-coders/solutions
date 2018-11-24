@@ -268,6 +268,7 @@ In our version of Snake, `snake` and the head have most of the dyanmic values an
 ### 1. the game starts ###
 When the game starts, we need to make sure that the snake has only one piece: the head. First, to make it easier to create pices of the snake, we can make a function that creates a sprite with all of the default values for a piece of the snake.
 
+_function to create snake pieces_
 ```javascript
 function SnakePiece(){
   this.position = {};
@@ -291,6 +292,7 @@ function SnakePiece(){
 
 With this function, we're ready to start adding code to the `start` function of the snake. To start, we'll add another attribute to snake called `direction`, which will let us update which direction the snake moves. It's an object that has an `x` and `y` property, like `position` and `velocity`. The default direction causes the snake to move right, so the x values will be 1 and the y value will be 0.
 
+_initial direction_
 ```javascript
 //create JavaScript object for direction
 snake.direction = {};
@@ -302,6 +304,7 @@ snake.direction.y = 0;
 
 Next, we need to add an _array_ named `pieces` to `snake`, which we'll use for tracking and managing all of the snake pieces. When we do, we also want to make sure that it has a single snake piece.
 
+_setting up array for snake pieces_
 ```javascript
 //create an array named pieces
 snake.pieces = [];
