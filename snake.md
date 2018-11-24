@@ -110,24 +110,27 @@ For Snake, there's a new attribute and component we'll use.
 
   - `tags`: is a list of keywords that we can assign to a sprite. Then later, we can search for sprites using a keyword, and get back a list of sprites which have the keyword.
 
-| attribute | left and right walls | top and bottom walls | food     | snake   | head of snake | piece of snake |
-|----------:|---------------------:|---------------------:|---------:|--------:|--------------:|---------------:|
-|`name`     |-                     | -                    | `"food"` | "snake" | -             |  -             |
-|`width`    | 1                    | 20                   | 1        | -       | 1             | 1              |
-|`height`   | 20                   | 1                    | 1        | -       | 1             | 1              |
-|`isSensor` | `true`               | `true`               | `true`   | -       | `true`        | `true`         |
+| attribute | left and right walls | top and bottom walls | food     | snake     | head of snake | piece of snake |
+|----------:|---------------------:|---------------------:|---------:|----------:|--------------:|---------------:|
+|`name`     |-                     | -                    | `"food"` | `"snake"` | -             |  -             |
+|`width`    | 1                    | 20                   | 1        | -         | 1             | 1              |
+|`height`   | 20                   | 1                    | 1        | -         | 1             | 1              |
+|`isSensor` | `true`               | `true`               | `true`   | -         | `true`        | `true`         |
 
-| component     | left wall | right wall | top wall  | bottom wall | food   | snake | head of snake   | piece of snake  |
-|--------------:|----------:|-----------:|----------:|------------:|-------:|------:|----------------:|----------------:|
-|`tags`         |`["wall"]` | `["wall"]` | `["wall"]`|`["wall"]`   | -      | -     |-                |`["snake piece"]`|
-|`position.x`   | 0         | 19         | 0         | 0           | 13     | -     | 10              | -               |
-|`position.y`   | 0         | 0          | 0         | 19          | 10     | -     | 10              | -               |
-|`hitBox.width` |1          | 1          | 20        | 20          | 1      | -     | 1               | 1               |          
-|`hitBox.height`|20         | 20         | 1         | 1           | 1      | -     | 1               | 1               |
-|`physics`      |-          |-           |-          |-            | -      | -     | `true`          | `true`          |
-|`start`        |`no`       |`no`        |`no`       |`no`         |`no`    |`yes`  |`no`             |`no`             |
-|`update`       |`no`       |`no`        |`no`       |`no`         |`no`    |`yes`  |`no`             |`no`             |
-|`onCollision`  |`no`       |`no`        |`no`       |`no`         |`no`    |`no`   |`yes`            |`no`             |       
+| component     | left wall | right wall | top wall  | bottom wall | food        | snake | head of snake        | piece of snake      |
+|--------------:|----------:|-----------:|----------:|------------:|------------:|------:|---------------------:|--------------------:|
+|`tags`         |`["wall"]` | `["wall"]` | `["wall"]`|`["wall"]`   | -           | -     |-                     |`["snake piece"]`    |
+|`image.src`    |-          |-           |-          |-            |[food][image]|-      |[head of snake][image]|[snake piece][image] |
+|`position.x`   | 0         | 19         | 0         | 0           | 13          | -     | 10                   | -                   |
+|`position.y`   | 0         | 0          | 0         | 19          | 10          | -     | 10                   | -                   |
+|`hitBox.width` |1          | 1          | 20        | 20          | 1           | -     | 1                    | 1                   |          
+|`hitBox.height`|20         | 20         | 1         | 1           | 1           | -     | 1                    | 1                   |
+|`physics`      |-          |-           |-          |-            | -           | -     | `true`               | `true`              |
+|`start`        |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`  |`no`                  |`no`                 |
+|`update`       |`no`       |`no`        |`no`       |`no`         |`no`         |`yes`  |`no`                  |`no`                 |
+|`onCollision`  |`no`       |`no`        |`no`       |`no`         |`no`         |`no`   |`yes`                 |`no`                 |       
+
+[image]: https://github.com/pyvelepor/framework/raw/snake/sprites/pong/ball.png
 
 You may have noticed several things.
 
@@ -247,6 +250,7 @@ if(Game.timers.withName("move").ready()){
   //loop over all of the snake pieces
   while(index < snake.pieces.length){
 
+    //1. move the zeroth piece first
     //check if `index` is the head
     if(index === 0){
       //save old position
@@ -258,6 +262,7 @@ if(Game.timers.withName("move").ready()){
       snake.pieces[index].position.y += snake.direction.y;
     }
 
+    //2. move first through last snake pieces
     //default is that `index` is any other snake piece
     else{
       //save old position
